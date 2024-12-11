@@ -12,3 +12,8 @@ A Retrieval-Augmented Generation (RAG) system that automatically processes text 
 - Supabase account (for PostgreSQL database)
 - Google Cloud account with Drive API enabled
 - Python 3.10 or higher
+
+## To-do
+- Develop Gradio app for RAG-enabled chat
+- Deploy chat app using Docker and Google Cloud
+- Continue adding data
