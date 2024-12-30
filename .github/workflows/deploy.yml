@@ -1,29 +1,35 @@
-name: Deploy Gradio App
+name: Deploy to Pages
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-          
-      - name: Install dependencies
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Build site
         run: |
-          python -m pip install --upgrade pip
-          pip install 'numpy<2.0.0'
-          pip install -r requirements.txt
-          
-      - name: Run app
-        env:
-          SUPABASE_HOST: ${{ secrets.SUPABASE_HOST }}
-          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
-        run: |
-          python app.py
+          mkdir _site
+          cp -r * _site/ || true
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
